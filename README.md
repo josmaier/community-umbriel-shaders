@@ -2,7 +2,7 @@
 
 A collection of reusable GLSL effects for the [Umbriel Wayland compositor](https://github.com/noctalia-dev/umbriel), organised by kind.
 
-This collection includes 77 community presets by Barrulus, six bundled Umbriel examples, and the original minimal animation example. Browse the categories for descriptions, previews, and copyable settings:
+This collection includes community presets by Barrulus, Dual Orbit by neonvoidx, the four kzzzt presets by weegs710, bundled Umbriel examples, and the original minimal animation example. Browse the categories for descriptions, previews, and copyable settings:
 
 | Kind | What it affects |
 | --- | --- |
@@ -20,11 +20,32 @@ For adjustments, see the [configuration reference](#configuration-reference),
 [border width and overlays](#border-width-padding-and-overlays), and the
 **Configuration options** section in each effect's README.
 
+## Halloween effects
+
+- [Witching Hour](animation/witching-hour/): a burning portal between workspaces, using the new reveal mode.
+- [Witchfire](cursor/witchfire/): a curved green cursor trail with orange embers.
+- [Pumpkin Parade](border/somethings-watching/): growing pumpkins, cat eyes and marching skeletons around the border, with its included inward overlay.
+- [Midnight Fog](screen/midnight-fog/): low purple mist across the output.
+
+Each preset includes an activation example and a real headless compositor preview.
+
+Thirteen recovered [full-scene workspace transitions](animation/) include
+[Iris](animation/workspace-iris/), [Burn](animation/workspace-burn/), Shatter,
+Tile Gravity, Venetian Blinds, Sand Collapse, CRT Scanline, Melt, Dust Cloud,
+Glitch Phase, Noctalia Wave, Transporter and Wipe. They animate complete scenes,
+including wallpaper and shell surfaces, using Umbriel’s current reveal API.
+Each includes a standalone preset, activation example and animated preview.
+
+[**Vampire Blood Wash**](animation/vampire-blood-wash/) reveals the full workspace
+through a glossy diagonal crimson wash, with distinct upward and downward sweeps.
+Pair it with [**Vampire Wake**](cursor/vampire-wake/), a crimson cursor trail with
+blood-red sparks and fluttering bats.
+
 ## Compatibility
 
 Use Umbriel with the preset effects API introduced in [commit `512e2fb3`](https://github.com/noctalia-dev/umbriel/commit/512e2fb3). The `0.1.0` version number alone does not distinguish older builds; check the commit printed by `umbriel --version` when available.
 
-[Comet](cursor/comet/) and [Fairy Tail](cursor/fairy-tail/) additionally require the newer cursor pointer-history API (`umbriel_pointer_count` and `umbriel_pointer_path[64]`). They were shader-tested against local Umbriel cursor revision `a8cdaca1`; the original preset-effects API alone cannot run them.
+[Comet](cursor/comet/), [Fairy Tail](cursor/fairy-tail/), [Pond Wake](cursor/pond-wake/), and [Starlight](cursor/starlight/) additionally require the newer cursor pointer-history API (`umbriel_pointer_count` and `umbriel_pointer_path[64]`). They were shader-tested against local Umbriel cursor revision `a8cdaca1`; the original preset-effects API alone cannot run them.
 
 GLSL source and configuration checks are described in [VALIDATION.md](VALIDATION.md).
 
@@ -439,6 +460,10 @@ Check config paths and GLSL compilation, then test the effect in a compositor, i
 ## Attribution and licensing
 
 Barrulus’s 74 contributed presets are [MIT licensed](LICENSES/Barrulus-MIT.txt). The six bundled Umbriel examples retain [Noctalia’s MIT notice](LICENSES/Noctalia-MIT.txt). Each effect README identifies its source. Keep the appropriate notice when redistributing those shaders.
+
+Dual Orbit is [MIT licensed by neonvoidx](LICENSES/neonvoidx-MIT.txt).
+
+The four kzzzt presets are [MIT licensed by weegs710](LICENSES/weegs710-MIT.txt).
 
 `animation/tv-glitch` is ported from Simon Schneegans’s [Burn-My-Windows](https://github.com/Schneegans/Burn-My-Windows) and is [GPL-3.0-or-later](LICENSES/BurnMyWindows-GPL-3.0-or-later.txt), like its source.
 

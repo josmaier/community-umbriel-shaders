@@ -2,6 +2,243 @@
 
 The initial collection was checked on 2026-09-27.
 
+## Vampire Blood Wash trailing-scene fix (2026-10-10)
+
+The blood band previously began fading before the outgoing-to-incoming blend
+completed, allowing the departing scene to reappear through the trailing edge.
+The scene now changes at the leading edge under the opaque blood. Draining blood
+uncovers only the incoming scene. Direction, artwork and duration are unchanged.
+
+- A regression check varies only the outgoing texture between black and white
+  and measures its contribution at each pixel over 121 progress values. The old
+  shader fails when the outgoing scene reappears. The fix passes all 968 frames
+  across both directions and landscape/portrait sizes: outgoing contribution
+  never increases as progress advances.
+- The existing 640-frame endpoint, alpha, scale, overshoot and reversal checks,
+  plus 18 direction/reflection checks, also pass.
+- Fresh private compositor captures exercise wallpaper, panels and populated
+  workspaces in both directions. Empty/populated completion and cancelled swipes
+  return pixel-identical resting scenes on Umbriel `0.1.0 (2145668)`.
+
+## Vampire Wake (2026-10-10)
+
+Added `vampire-wake`, a Witchfire-derived crimson cursor ribbon with burgundy
+wisps, falling red sparks and fluttering bat silhouettes.
+
+Validation with **Umbriel 0.1.0 (`2145668`)**:
+
+- Compiles and renders in a private headless compositor. Still and animated
+  previews show movement over synthetic light and dark content.
+- After movement stops and the trail expires, the captured scene returns
+  pixel-identically to the initial stationary halo. Four output-edge positions
+  also render successfully.
+- 288 software-GLES cases cover counts 0/1/2/8/16/64, sparse and dense curves,
+  stationary/expired history, large jumps, opaque/translucent/transparent input,
+  landscape/portrait logical sizes and scale 1/1.5. Source alpha and SDR
+  premultiplication are preserved, with no GL errors.
+- Each case is compared with an additional no-history render: absent, single,
+  stationary, expired and large-jump paths show no residual trail; valid moving
+  paths show a visible effect.
+- Individual and combined configuration validation passes. README links resolve.
+
+Animated captures use real pointer timestamps and approximately 80 ms samples;
+preview timing is illustrative. Hardware performance, HDR and native rotated or
+fractional-scale output composition remain unverified.
+
+## Vampire Blood Wash (2026-10-10)
+
+Added `vampire-blood-wash`, a full-scene reveal with a glossy crimson band.
+Downward navigation advances top-left to bottom-right; upward navigation
+advances bottom-left to top-right. Both use the current two-scene sampling API.
+
+Validation with **Umbriel 0.1.0 (`2145668`)**:
+
+- Compiles and renders in a private headless compositor with wallpaper, a panel
+  and two populated workspaces. Still and animated previews cover both directions.
+- Empty-to-empty completion, both populated switch directions and cancelled
+  swipes return pixel-identical resting scenes.
+- 640 software-GLES frames pass endpoint, overshoot, four-axis, aspect-ratio,
+  scale 1/1.5, transparent/translucent/opaque input, premultiplied-alpha and
+  reversed-progress checks with distinct outgoing/incoming textures.
+- Another 18 GLES frames verify the requested diagonal corners and vertical
+  reflection between directions, including a tiny logical target.
+- Preset packaging and individual/combined configuration validation pass.
+
+These checks are not hardware performance measurements or native HDR,
+rotated-output or fractional-scale composition acceptance tests.
+
+## Recovered workspace reveals (2026-10-10)
+
+Added thirteen full-scene workspace transitions: Iris, Burn, Shatter, Tile
+Gravity, Venetian Blinds, Sand Collapse, CRT Scanline, Melt, Dust Cloud,
+Glitch Phase, Noctalia Wave, Transporter and Wipe. Their preset/directory names
+start with `workspace-` to distinguish them from window lifecycle effects.
+
+Sources were the disposable effects-session reveal bundle (six presets), its
+referenced showcase presets (six workspace pairs), and the workspace-reveal
+session's Wipe. Backup variants, carousel presentation, window-scene lifecycle
+presets and already-collected cursor/window shaders were not imported.
+
+The scene-v1 sources were ported to `animation(vec2)` with `umbriel_sample`
+and `umbriel_sample_incoming`. Output size comes from `umbriel_size` and
+navigation sign from `umbriel_workspace_axis`. Saved preset parameters became
+GLSL constants; shared helpers were embedded for standalone downloads. Iris
+and Melt retain their quiet appearance without the unused audio modulation.
+Wipe now combines both scenes instead of masking individual workspace roots.
+
+Validation with **Umbriel 0.1.0 (`2145668`)**:
+
+- All thirteen compile and render in private headless sessions. Each has a
+  still and GIF preview with synthetic wallpaper, a panel and populated
+  outgoing/incoming workspaces. Every still was visually inspected.
+- For every preset, empty-to-empty completion, both populated switch
+  directions and cancelled swipes return pixel-identical resting scenes.
+- Each passes 640 software-GLES frames using the installed revision's shader
+  declarations: 8,320 frames total. Checks cover exact outgoing/incoming
+  endpoints, near endpoints, clamped overshoot, both navigation axes and signs,
+  landscape/portrait targets, scale 1/1.5, distinct source/destination colours,
+  transparent/translucent/opaque inputs, and reversed progress. Empty input
+  remains empty; rendering completes without GL errors.
+- SDR premultiplication checks pass for the eleven non-emissive presets.
+  Burn and CRT Scanline preserve their original additive light, whose RGB can
+  exceed alpha; these were checked for endpoints, empty input and GL errors
+  without imposing an SDR colour bound on their emission.
+- All 112 installation examples and the combined library pass configuration
+  validation. New README file links resolve and catalog entries form one table.
+
+The original artwork and bounded loops are retained. These checks are not
+hardware performance measurements or a native HDR/rotated/fractional-scale
+output acceptance pass. Animated previews use approximately 40 ms samples.
+No personal desktop configuration was changed.
+
+
+
+## Witching Hour full-scene reveal (2026-10-10)
+
+Updated the shader for Umbriel `0.1.0 (2145668)`: it samples both the outgoing
+scene and `umbriel_sample_incoming`, blends once at output coordinates, and
+returns the final scene pixel. Removed the obsolete workspace-root rectangle,
+entering/leaving masks and transparent endpoint behavior. The 1100 ms selection
+and Halloween artwork are unchanged. Earlier root-based builds are incompatible.
+
+- Compiles and renders in the installed compositor. Fresh still and animated
+  previews include a synthetic wallpaper, panel and two populated workspaces.
+- An empty-to-empty switch visibly burns across wallpaper and the panel;
+  its intermediate frame differs from rest at 66,559 pixels. The completed
+  frame is pixel-identical to the resting scene.
+- Both populated switch directions finish pixel-identically to their destination
+  captures, and a cancelled swipe restores the original scene pixel for pixel.
+- 1,920 software-GLES frames using the installed revision's host declarations
+  pass exact outgoing/incoming endpoint, clamped overshoot, premultiplied-alpha,
+  four-axis, wide/tall size, two-seed, scale 1/1.5 and reversed-progress checks.
+  The two input textures have different colours and include equal and unequal
+  alpha; transparent input stays transparent and opaque input stays opaque.
+- All 99 installation examples and the combined library pass configuration
+  validation in this checkout.
+
+Still previews and representative compositor frames were visually inspected.
+Native rotated/fractional-scale output composition, HDR and hardware performance
+remain unverified. The 2026-10-09 entry below describes the superseded shader.
+
+
+
+## Pond Wake and Starlight publication (2026-10-09)
+
+Both cursor presets compile and render in private headless sessions with
+installed Umbriel `0.1.0 (d083f24)`. Fresh synthetic captures were visually
+inspected. The published files retain their original synthetic catalog previews
+and match the locally validated versions below. All 99 installation examples
+and the combined library pass configuration validation; the two preset READMEs'
+relative file links resolve. No hardware performance benchmark was performed.
+
+## Halloween presets (2026-10-09)
+
+Published Witching Hour, Witchfire, Pumpkin Parade (including its required
+inward overlay), and Midnight Fog. Shader and preset files match the user's
+installed versions byte for byte at publication preparation. All five presets
+report `compiled` in the running Umbriel `0.1.0 (d083f24)` session. All 97
+installation examples and the combined library pass configuration validation
+in the publication checkout; the new README file links also resolve.
+
+Witchfire, the border with its overlay, and Midnight Fog were previously
+compiled, rendered and visually inspected in private headless sessions with
+Umbriel `0.1.0 (1d01b3a)`. Supplemental software-GLES checks covered 72 cursor
+history/alpha cases and 192 border/overlay cases for growth phases, aspect
+ratios, scale, alpha, clear centres and shared geometry. Hardware performance,
+HDR and rotated-output composition remain unverified.
+
+## Witching Hour workspace reveal (2026-10-09)
+
+Added `animation/witching-hour` for the new workspace `style = "reveal"`
+contract, with a 1100 ms activation example, still image and animated preview.
+
+- The selected shader compiles and renders in a private headless compositor.
+  Both directions between two populated synthetic workspaces were captured.
+  Finished frames and a cancelled swipe restore the corresponding resting
+  workspace pixel for pixel. Initial client interiors match; native focus
+  borders change as navigation changes focus.
+- 1,296 offscreen GLES frames using the upstream animation wrapper cover
+  both root directions, all four navigation axes, wide/tall output sizes,
+  two seeds, transparent/translucent/opaque input, exact and near endpoints,
+  and clamped overshoot. Endpoint, premultiplied-alpha, complementary-mask
+  and GL-error checks pass on Mesa software rendering.
+- Twelve cropped-root comparisons check that different scene bounds produce
+  the same output-space coverage, within one byte of alpha rounding.
+- The still preview and representative intermediate compositor frames were
+  visually inspected. The GIF uses 40 ms frozen-clock increments.
+
+These checks do not benchmark hardware performance or verify HDR and rotated
+output composition. Fractional scale is covered by offscreen mask checks,
+not a native fractional-scale session. No personal configuration was changed.
+
+
+## Starlight (2026-10-05)
+
+Added `cursor.starlight`, based on Pond Wake with the coloured cloud and crest
+lighting removed, neutral white sparkles, softer halos and reduced refraction.
+
+- All 86 installation examples and the combined library pass configuration
+  validation with `umbriel 0.1.0 (6adcbc0)`.
+- Compiles, links and renders with the cursor wrapper from local Umbriel
+  revision `a8cdaca1` on Mesa llvmpipe (LLVM 21.1.8).
+- Passes the same 56 offscreen count, age, palette, alpha, scale and path cases
+  listed for Pond Wake below. Three additional grayscale tests at alpha 0,
+  0.4 and 1 confirm that the output remains neutral and preserves input alpha.
+- The synthetic preview was visually inspected over light and dark content.
+- Installed and selected in the running `6adcbc0` compositor; runtime inspection
+  reports `compiled` and an unsuppressed cursor selection.
+
+Live motion appearance has not been visually inspected by the assistant.
+Hardware performance, rotated outputs and HDR composition are unverified;
+scale and edge checks use offscreen rendering rather than full composition.
+
+## Pond Wake (2026-10-05)
+
+Added `cursor.pond-wake`: curved pointer-path refraction with spreading wavelets
+and blue-green stirred light, based on Ripple Drops and Comet. The glow was
+then revised into brighter warped-noise wisps and seeded, curling flashes
+inspired by Fairy Tail; all 56 offscreen checks were repeated successfully
+and the updated synthetic preview was inspected.
+
+- All 85 installation examples and the combined library pass configuration
+  validation with `umbriel 0.1.0 (6adcbc0)`.
+- The shader compiles, links and renders using the cursor wrapper from local
+  Umbriel cursor revision `a8cdaca1`, on Mesa llvmpipe (LLVM 21.1.8).
+- Twenty sample-count / age / palette cases pass: 0, 1, 2, 8 and 64 samples,
+  active and expired paths, and both palette settings. Empty, single-sample
+  and expired paths preserve the input.
+- Thirty-six additional renders cover opaque, 0.4-alpha and empty input at
+  scales 1, 1.5 and 2, with crossing, edge-adjacent, stationary and discontinuous
+  paths and wrapped birth phases. All preserve uniform input alpha without GL
+  errors; stationary and warp-only paths preserve the background.
+- The synthetic preview was visually inspected over light and dark content.
+- Installed and selected in the running `6adcbc0` compositor; runtime inspection
+  reports the preset as `compiled` and the cursor selection as unsuppressed.
+
+Live motion appearance has not been visually inspected by the assistant.
+Hardware performance, rotated outputs and HDR composition are not benchmarked.
+The scale/edge checks are offscreen sampling tests, not full compositor tests.
+
 ## Comet and Fairy Tail (2026-10-05)
 
 Added the tuned cursor presets with oldest-to-newest overlap blending and
