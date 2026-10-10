@@ -1,10 +1,8 @@
-// Blood front sweeps across the workspace, hiding the outgoing scene and revealing the incoming one.
-// Matches the bloodIn / bloodOut window animations and the blood border (same palette, ripple, drips, gloss, clots).
 uniform vec2 umbriel_workspace_axis;
 
-const vec3 COLOR_DEEP     = vec3(0.10, 0.0, 0.01);   // Near-black clotted core
-const vec3 COLOR_BRIGHT   = vec3(0.60, 0.02, 0.035); // Deep arterial crimson
-const vec3 GLOSS_COLOR    = vec3(0.35, 0.05, 0.06);  // Wet specular sheen
+const vec3 COLOR_DEEP     = vec3(0.10, 0.0, 0.01);
+const vec3 COLOR_BRIGHT   = vec3(0.60, 0.02, 0.035);
+const vec3 GLOSS_COLOR    = vec3(0.35, 0.05, 0.06);
 const float BLOOD_OPACITY = 0.94;
 const float BLOOD_BAND    = 0.30; // Trail length behind the front, as a fraction of the sweep axis.
 
@@ -65,7 +63,6 @@ vec4 animation(vec2 uv) {
 
     vec4 scene = mix(umbriel_sample(uv), umbriel_sample_incoming(uv), reveal);
 
-    // Scene is premultiplied: tint toward premultiplied blood so alpha is preserved.
     scene.rgb = mix(scene.rgb, blood_col * scene.a, blood_intensity * BLOOD_OPACITY);
     return scene;
 }
